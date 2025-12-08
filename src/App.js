@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import useSpotifyData from "./hooks/useSpotifyData";
+import Dashboard from "./components/Dashboard";
 
 function App() {
+  const { data, loading } = useSpotifyData();
+
+  console.log("APP DATA:", data);  // DEBUG
+
+  if (loading) {
+    return <p>Loading Spotify dataset...</p>;
+  }
+
+  if (!data || data.length === 0) {
+    return <p>ERROR: No data loaded</p>;
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div id="tooltip-root"></div>
+      <Dashboard data={data} />
     </div>
   );
 }

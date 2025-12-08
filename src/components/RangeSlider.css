@@ -1,0 +1,78 @@
+/* Wrapper for positioning both sliders */
+.range-slider {
+  position: relative;
+  width: 320px;
+  margin: 20px 0;
+  z-index: 2; /* BELOW chart so circles never overlap */
+}
+
+/* Container for background & green range */
+.slider {
+  position: relative;
+  height: 6px;
+  margin: 18px 6px 0 6px;
+}
+
+/* Full track */
+.slider-track {
+  position: absolute;
+  width: 100%;
+  height: 6px;
+  background: #dcdcdc;
+  border-radius: 3px;
+}
+
+/* Green highlighted range */
+.slider-range {
+  position: absolute;
+  height: 6px;
+  background: #3bb34a; /* softer, nicer green */
+  border-radius: 3px;
+  transition: left 0.1s, width 0.1s;
+margin-left: 4px;
+  margin-right: 4px;
+}
+
+/* Slider THUMBS */
+.range-slider input[type=range]::-webkit-slider-thumb {
+  pointer-events: all;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #484848;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 3px rgba(0,0,0,0.3);
+  cursor: pointer;
+  position: relative;
+  z-index: 10;
+}
+/* Hide ALL native slider tracks */
+.range-slider input[type=range] {
+  position: absolute;
+  width: 100%;
+  height: 6px;
+  top: 0;
+  left: 0;
+  background: none;
+  pointer-events: none;  /* track can't be grabbed */
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+}
+
+
+.range-slider input[type=range]::-moz-range-thumb {
+  pointer-events: all;
+  width: 18px;
+  height: 18px;
+  background: #484848;
+  border: 2px solid white;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Remove Firefox track */
+.range-slider input[type=range]::-moz-range-track {
+  background: transparent;
+}

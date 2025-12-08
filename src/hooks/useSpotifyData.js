@@ -22,10 +22,17 @@ export default function useSpotifyData() {
         tempo: +d.tempo,
         time_signature: +d.time_signature,
         valence: +d.valence,
-        popularity: +d.popularity
+        popularity: +d.popularity,
       }));
 
-      setData(parsed);
+      const SAMPLE_SIZE = 20000;
+
+      const sampled =
+        parsed.length > SAMPLE_SIZE
+          ? parsed.sort(() => 0.5 - Math.random()).slice(0, SAMPLE_SIZE)
+          : parsed;
+
+      setData(sampled);
       setLoading(false);
     });
   }, []);
