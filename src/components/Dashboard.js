@@ -4,6 +4,7 @@ import EnergyVsDanceability from "./charts/EnergyVsDanceability";
 import TempoHistogram from "./charts/TempoHistogram";
 import ValenceLoudnessScatter from "./charts/ValenceLoudnessScatter";
 import KeyFeatureBarChart from "./charts/KeyFeatureBarChart";
+import CorrelationMatrix from "./charts/CorrelationMatrix";
 import RangeSlider from "./RangeSlider";
 
 function Dashboard({ data }) {
@@ -66,12 +67,13 @@ function Dashboard({ data }) {
         <h3>Chart 3: Valence vs Loudness</h3>
         <ValenceLoudnessScatter data={data} />
         </div>
-        
+
         {/* Chart 4 */}
         <div className="chart-section">
-        <h3>Chart 4: Key Feature Bar Chart</h3>
-        <KeyFeatureBarChart data={data} feature="energy" />
+        <h3>Chart 4: Audio Feature Correlation Matrix</h3>
+        <CorrelationMatrix data={data} />
         </div>
+
 
 
     </div>

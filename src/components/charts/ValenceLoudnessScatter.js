@@ -17,17 +17,27 @@ function ValenceLoudnessScatter({ data }) {
 
     svg.selectAll("*").remove();
 
+    // Tooltip root
+    const tooltip = d3.select("#tooltip-root")
+      .style("position", "absolute")
+      .style("pointer-events", "none")
+      .style("background", "rgba(0,0,0,0.85)")
+      .style("color", "white")
+      .style("padding", "6px 10px")
+      .style("font-size", "12px")
+      .style("border-radius", "4px")
+      .style("opacity", 0);
+
     // SCALES
     const x = d3.scaleLinear()
-      .domain([0, 1]) // valence is normalized
+      .domain([0, 1])
       .range([margin.left, width - margin.right]);
 
     const loudExtent = d3.extent(data, d => d.loudness);
     const y = d3.scaleLinear()
-      .domain(loudExtent) // loudness values are negative decibels
+      .domain(loudExtent)
       .range([height - margin.bottom, margin.top]);
 
-    // COLOR: Use energy as color dimension
     const color = d3.scaleSequential(d3.interpolatePlasma)
       .domain(d3.extent(data, d => d.energy));
 
@@ -56,7 +66,7 @@ function ValenceLoudnessScatter({ data }) {
       .attr("font-size", 14)
       .text("Loudness (dB)");
 
-    // POINTS
+    // POINTS WITH TOOLTIPS
     svg.append("g")
       .selectAll("circle")
       .data(data)
@@ -66,7 +76,26 @@ function ValenceLoudnessScatter({ data }) {
       .attr("cy", d => y(d.loudness))
       .attr("r", 3)
       .attr("fill", d => color(d.energy))
-      .attr("opacity", 0.65);
+      .attr("opacity", 0.65)
+      .on("mouseover", function (event, d) {
+        tooltip
+          .style("opacity", 1)
+          .html(
+            `<strong>${d.track_name}</strong><br/>
+             ${d.artist_name}<br/>
+             Valence: ${d.valence.toFixed(2)}<br/>
+             Loudness: ${d.loudness.toFixed(1)} dB<br/>
+             Energy: ${d.energy.toFixed(2)}`
+          );
+      })
+      .on("mousemove", function (event) {
+        tooltip
+          .style("left", event.pageX + 12 + "px")
+          .style("top", event.pageY - 28 + "px");
+      })
+      .on("mouseout", function () {
+        tooltip.style("opacity", 0);
+      });
 
     // TITLE
     svg.append("text")
